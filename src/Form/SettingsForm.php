@@ -30,6 +30,7 @@ class SettingsForm extends ConfigFormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
     $banned_countries = $this->config('aspambot.settings')->get('countries');
+    $reverse = $this->config('aspambot.settings')->get('reverse');
     $countries = CountryManager::getStandardList();
     $form['#attached']['library'][] = 'aspambot/aspambot';
     $form['cnt_countries'] = [
@@ -39,14 +40,19 @@ class SettingsForm extends ConfigFormBase {
     ];
     $form['cnt_countries']['countries'] = [
       '#type' => 'select',
-      '#title' => 'Block by Country',
+      '#title' => 'Selected countries',
       '#multiple' => TRUE,
       '#empty_value' => 'none',
       '#empty_option' => 'None',
       '#options' => $countries,
       '#default_value' => $banned_countries,
-      '#description' => t('Selected countries will be denied access to website forms.'),
 
+    ];
+    $form['cnt_countries']['reverse'] = [
+      '#type' => 'checkbox',
+      '#title' => 'Use as whitelist',
+      '#default_value' => $reverse,
+      '#description' => t('If selected, the list will be used as a whitelist rather than a blacklist.'),
     ];
     $form['submit'] = [
       '#type' => 'submit',
@@ -70,7 +76,9 @@ class SettingsForm extends ConfigFormBase {
     $config = $this->config('aspambot.settings');
     $values = $form_state->getValues();
     $countries = $values['countries'] ?? [];
+    $reverse = $values['reverse'] ?? 0;
     $config->set('countries', $countries)->save();
+    $config->set('reverse', $reverse)->save();
   }
 
 }

@@ -32,15 +32,28 @@ function aspambot_form_alter(&$form, FormStateInterface $form_state, $form_id) {
     $user = \Drupal::currentUser();
     if (!$user->isAuthenticated()) {
       $banned_countries = \Drupal::config('aspambot.settings')->get('countries');
+      $reverse = \Drupal::config('aspambot.settings')->get('reverse');
       $ip = \Drupal::request()->getClientIP();
       $country = geoip_country_code_by_name($ip);
-      if (in_array($country, $banned_countries)) {
-        $form['#access'] = FALSE;
-        $form['#markup'] = '';
-        $form['#cache'] = [
-          'contexts' => [],
-          'max-age' => 0,
-        ];
+      if ($reverse) {
+        if (!in_array($country, $banned_countries)) {
+          $form['#access'] = FALSE;
+          $form['#markup'] = '';
+          $form['#cache'] = [
+            'contexts' => [],
+            'max-age' => 0,
+          ];
+        }
+      }
+      else {
+        if (in_array($country, $banned_countries)) {
+          $form['#access'] = FALSE;
+          $form['#markup'] = '';
+          $form['#cache'] = [
+            'contexts' => [],
+            'max-age' => 0,
+          ];
+        }
       }
     }
   }
