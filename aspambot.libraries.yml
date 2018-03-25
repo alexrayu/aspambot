@@ -10,8 +10,8 @@ aspambot:
 multiselect:
   css:
     theme:
-      /libraries/multiselect/css/multi-select.dist.css: {}
+      /libraries/jquery.multiselect/css/multi-select.dist.css: {}
   js:
-    /libraries/multiselect/js/jquery.multi-select.js: {}
+    /libraries/jquery.multiselect/js/jquery.multi-select.js: {}
   dependencies:
     - core/jquery

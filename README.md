@@ -2,6 +2,7 @@
 
 ## Current functionality:
 - Block countries by IP.
+- Checks IP gainst the AbuseIPDB.
 
 ## Planned functionality:
 - Analyze text by keywords.
