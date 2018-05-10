@@ -31,6 +31,7 @@ function aspambot_help($route_name, RouteMatchInterface $route_match) {
  */
 function aspambot_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   $form['#validate'][] = 'aspambot_form_validate';
+  $form['#cache'] = ['max-age' => 0];
 }
 
 /**
